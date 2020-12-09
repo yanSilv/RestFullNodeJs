@@ -232,22 +232,8 @@ class UserContrller{
 
     selectAll(){
 
-        //let users = User.getUsersStorage();
-
-        let ajax = new XMLHttpRequest();
-
-        ajax.open('GET', '/users');
-        console.log('Linha 207');
-        ajax.onload = event => {
-            let obj = {users: []};
-            
-            try{
-                obj = JSON.parse(ajax.responseText);
-            } catch (e) {
-                console.log(e);
-            }
-
-            obj.users.forEach(dataUser=>{
+        HttpRequest.get('/users').then(data=> {
+            data.users.forEach(dataUser=>{
 
                 let user = new User();
     
@@ -256,8 +242,6 @@ class UserContrller{
                 this.addLine(user);
     
             });
-        }
-
-        ajax.send();
+        });
     }
 }
