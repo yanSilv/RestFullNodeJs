@@ -18,7 +18,7 @@ class HttpRequest {
 
     static request(method, url, params = {}) {
 
-        return new Promise ((resolver, reject) => {
+        return new Promise ((resolve, reject) => {
             let ajax = new XMLHttpRequest();
 
             ajax.open(method.toUpperCase(), url);
@@ -33,14 +33,15 @@ class HttpRequest {
                 try{
                     obj = JSON.parse(ajax.responseText);
                 } catch (e) {
-                    reject(obj);
+                    reject(e);
                     console.log(e);
+                    console.log(ajax.responseText);
                 }
 
-                resolver(obj);
+                resolve(obj);
             }
-
-            ajax.send();
+            ajax.setRequestHeader('Content-Type', 'application/json');
+            ajax.send(JSON.stringify(params));
         })
         
     }

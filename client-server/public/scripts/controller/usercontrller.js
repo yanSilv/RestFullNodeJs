@@ -18,18 +18,20 @@ class UserContrller{
             if (!values) {
                 return false;
             }
-
+            console.log('Linha 21 ');
+            console.log(values);
             this.getPhoto(this.formEl).then(
                 (content)=>{
                     values.photo = content;
-                    values.save();  
-                    this.addLine(values);
-                    this.formEl.reset();
+                    values.save().then(user=>{
+                        this.addLine(user);
+                        this.formEl.reset();
+                        btn.disabled = false;
+                    });  
                 },
                 (e)=>{
                     console.error(e);
                 });
-            btn.disabled = false;
         });
     }
 
@@ -55,13 +57,14 @@ class UserContrller{
 
                     let user = new User();
                     user.loadFromJSON(result);
-                    user.save();
-                    this.getTr(user, tr);
+                    user.save().then(user => {
+                        this.getTr(user, tr);
                         
-                    this.updateCount();
-                    this.formUpdate.reset();
-                    btn.disabled = false;
-                    this.onClosed();
+                        this.updateCount();
+                        this.formUpdate.reset();
+                        btn.disabled = false;
+                        this.onClosed();
+                    });
                 },
                 (e)=>{
                     console.error(e);
