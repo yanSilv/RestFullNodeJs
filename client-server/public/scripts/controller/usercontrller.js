@@ -18,8 +18,8 @@ class UserContrller{
             if (!values) {
                 return false;
             }
-            console.log('Linha 21 ');
-            console.log(values);
+            //console.log('Linha 21 ');
+            //console.log(values);
             this.getPhoto(this.formEl).then(
                 (content)=>{
                     values.photo = content;
@@ -177,9 +177,11 @@ class UserContrller{
             if(confirm("Deseja realmente excluir?")) {
                 let user = new User();
                 user.loadFromJSON(JSON.parse(tr.dataset.user));
-                user.remove();
-                tr.remove();
-                this.updateCount();
+                //console.log('Linha Deletando usuario');
+                user.remove().then(data=>{
+                    tr.remove();
+                    this.updateCount();
+                });
             }
         });
 
@@ -235,7 +237,7 @@ class UserContrller{
 
     selectAll(){
 
-        HttpRequest.get('/users').then(data=> {
+        User.getSessionStorage().then(data=> {
             data.users.forEach(dataUser=>{
 
                 let user = new User();

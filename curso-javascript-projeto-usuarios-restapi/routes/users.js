@@ -50,6 +50,8 @@ module.exports = app => {
 
     routeId.get((req, res) => {
 
+        console.log('Linha 53 '+req.params.id);
+
         db.findOne({_id:req.params.id}).exec((err, user)=>{
 
             if (err) {
@@ -63,6 +65,8 @@ module.exports = app => {
     });
 
     routeId.put((req, res) => {
+
+        console.log('Linha 67 '+req.params.id);
         
         if (!app.utils.validator.user(app, req, res)) return false;
 
@@ -79,6 +83,8 @@ module.exports = app => {
     });
     
     routeId.delete((req, res)=>{
+
+        //console.log('Linha 83 '+req.params.id);
 
         db.remove({ _id: req.params.id }, {}, err=>{
 

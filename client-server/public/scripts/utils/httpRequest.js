@@ -20,6 +20,8 @@ class HttpRequest {
 
         return new Promise ((resolve, reject) => {
             let ajax = new XMLHttpRequest();
+            
+            console.log('Linha 24 '+method.toUpperCase() +' '+url);
 
             ajax.open(method.toUpperCase(), url);
 

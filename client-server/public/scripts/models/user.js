@@ -75,25 +75,8 @@ class User {
     }
 
     static getSessionStorage() {
-        let users = [];
-        if (localStorage.getItem("users")) {
-            users = JSON.parse(localStorage.getItem("users"));
-        }
 
-        return users;
-    }
-
-    getNewID() {
-        let userId = parseInt(localStorage.getItem("usersID"));
-        if (!userId > 0) {
-            userId = 0;
-        }
-
-        userId++;
-
-        localStorage.setItem("usersID", userId);
-        return userId;
-            
+        return HttpRequest.get('/users');
     }
 
     toJSON() {
@@ -114,7 +97,7 @@ class User {
             if (this.id) {
                 promise = HttpRequest.put(`/users/${this.id}`, this.toJSON());
             } else {
-                console.log('Linha 117 '+this.toJSON());
+                //console.log('Linha 117 '+this.toJSON());
                 promise = HttpRequest.post(`/users/`, this.toJSON());
             }
 
@@ -128,13 +111,7 @@ class User {
     }
 
     remove() {
-        let users = User.getSessionStorage();
-        users.forEach((userData, index) => {
-            if(this._id == userData._id) {
-                users.splice(index, 1);
-            }
-        });
-        
-        localStorage.setItem("users", JSON.stringify(users));
+        //console.log(`Linha 131 ${this.id}`);
+        return HttpRequest.delete(`/users/${this.id}`);
     }
 }
